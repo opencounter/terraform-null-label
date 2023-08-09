@@ -27,11 +27,14 @@ output "environment" {
   value       = module.label.environment
   description = "Normalized environment"
 }
+
 output "is_prod" {
-  value = module.label.environment == "production"
+  value = module.label.stage == "prod"
 }
-output "delivery_stage_simple" {
-  value = contains(["review", "development", "staging", "production"], module.label.environment) ? module.label.environment : "development"
+
+output "stage" {
+  value       = module.label.stage
+  description = "Normalized stage"
 }
 
 output "name" {

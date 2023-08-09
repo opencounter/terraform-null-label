@@ -7,35 +7,39 @@ module "label" {
   environment = var.delivery_stage
   name        = var.component
   namespace   = var.application
-  stage       = null
+  stage       = var.stage
   tenant      = var.tenant
   context     = var.context
 
   label_order = [
     "namespace", # application
+    "environment",
     "tenant",
-    "environment", # delivery_stage
-    "name",        # component
+    "name", # component
     "attributes",
   ]
 
-  # namespace   tenant  env  name       attributes
-  # opencounter-orlando-prod-cloudfront-ingress-443
+  # namespace  stage tenant  name       attributes
+  # opencounter-prod-orlando-cloudfront-ingress-443
 
   descriptor_formats = {
     stack = {
       labels = ["namespace", "environment"] # opencounter-prod
       format = "%v-%v"
     }
+    qualified_environment = {
+      labels = ["stage", "environment"]
+      format = "%v-%v"
+    }
   }
 
   tags = merge({
-    ManagedBy = "terraform"
+    ManagedBy   = "terraform"
     Application = local.application
   }, local.tags)
 }
 
 locals {
   application = coalesce(lookup(var.context, "namespace", null), var.application)
-  tags = coalesce(lookup(var.context, "tags", {}), var.tags)
+  tags        = coalesce(lookup(var.context, "tags", {}), var.tags)
 }

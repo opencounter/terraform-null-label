@@ -4,10 +4,21 @@ variable "application" {
   description = "required unless provided via context. logical name of the application this resource pertains to"
 }
 
-variable "delivery_stage" {
+variable "stage" {
   type        = string
   default     = null
-  description = "required unless provided via context. name of the deployment environment (eg. production, staging, qa-vigilant-octo-potato)"
+  description = "required unless provided via context. one of the deployment-stages outlined in our naming specification"
+
+  validation {
+    condition     = length(var.stage) > 0 && length(regexall("^(prod|stag|test|qa|dev)$", var.stage))
+    error_message = "The stage var is constrained to the values listed in the infrastructure naming document in opencounter/terraform"
+  }
+}
+
+variable "environment" {
+  type        = string
+  default     = null
+  description = "required unless provided via context. Unique name of the specific deployment environment, to distinguish among many in its `stage`. The environment can be named == `stage`, for singleton stages like prod and stag. This value is used in IDs, while stage is only used in Tags.Stage"
 }
 
 variable "attributes" {
