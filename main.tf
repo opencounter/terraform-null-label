@@ -4,7 +4,7 @@ module "label" {
 
   enabled     = true
   attributes  = var.attributes
-  environment = var.delivery_stage
+  environment = var.environment
   name        = var.component
   namespace   = var.application
   stage       = var.stage
