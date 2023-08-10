@@ -8,11 +8,6 @@ variable "stage" {
   type        = string
   default     = null
   description = "required unless provided via context. one of the deployment-stages outlined in our naming specification"
-
-  validation {
-    condition     = length(var.stage) > 0 && length(regexall("^(prod|stag|test|qa|dev)$", var.stage))
-    error_message = "The stage var is constrained to the values listed in the infrastructure naming document in opencounter/terraform"
-  }
 }
 
 variable "environment" {
