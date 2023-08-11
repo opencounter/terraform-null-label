@@ -37,6 +37,10 @@ output "stage" {
   description = "Normalized stage"
 }
 
+output "stack" {
+  value = module.label.descriptors.stack
+}
+
 output "name" {
   value       = module.label.name
   description = "Normalized name"
