@@ -40,6 +40,6 @@ module "label" {
 }
 
 locals {
-  application = coalesce(lookup(var.context, "namespace", null), var.application)
-  tags        = coalesce(lookup(var.context, "tags", {}), var.tags)
+  application = var.application != null ? var.application : lookup(var.context, "namespace", null)
+  tags        = coalesce(var.tags, lookup(var.context, "tags", {}))
 }
